@@ -1,0 +1,34 @@
+package org.example.util;
+
+import org.example.model.Equipment;
+import org.example.model.Well;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+
+public class HibernateSessionFactoryUtil {
+    private static SessionFactory sessionFactory;
+
+    private HibernateSessionFactoryUtil() {
+    }
+
+    public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            try {
+                Configuration configuration = new Configuration().configure();
+                configuration.addAnnotatedClass(Well.class);
+                configuration.addAnnotatedClass(Equipment.class);
+
+                StandardServiceRegistryBuilder builder =
+                        new StandardServiceRegistryBuilder()
+                                .applySettings(configuration.getProperties());
+
+                sessionFactory = configuration.buildSessionFactory(builder.build());
+
+            } catch (Exception e) {
+                System.err.println("Exception: " + e.getMessage());
+            }
+        }
+        return sessionFactory;
+    }
+}
