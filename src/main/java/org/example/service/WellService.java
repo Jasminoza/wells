@@ -3,7 +3,7 @@ package org.example.service;
 import lombok.AllArgsConstructor;
 import org.example.model.Well;
 import org.example.repository.WellRepository;
-import org.example.repository.hibernate.HibernateWellRepositoryImpl;
+import org.example.repository.jdbc.JDBCWellRepositoryImpl;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class WellService {
     private final WellRepository wellRepository;
 
     public WellService() {
-        this.wellRepository = new HibernateWellRepositoryImpl();
+        this.wellRepository = new JDBCWellRepositoryImpl();
     }
 
    public List<Well> getAll() {
@@ -37,5 +37,9 @@ public class WellService {
 
     public Well getWellByName(String wellName) {
         return wellRepository.getByName(wellName);
+    }
+
+    public String getAllWithEquipments(String outputFileName) {
+        return wellRepository.getAllWithEquipments(outputFileName);
     }
 }

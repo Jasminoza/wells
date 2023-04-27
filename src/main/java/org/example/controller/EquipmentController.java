@@ -1,7 +1,6 @@
 package org.example.controller;
 
 import org.example.model.Equipment;
-import org.example.model.Well;
 import org.example.service.EquipmentService;
 
 import java.util.ArrayList;
@@ -21,14 +20,14 @@ public class EquipmentController {
         return equipmentService.getAll();
     }
 
-    public Equipment createEquipment(String name, Well well) {
+    public Equipment createEquipment(String name, Long wellId) {
         Equipment equipment = new Equipment();
         equipment.setName(name);
-        equipment.setWellId(well.getId());
+        equipment.setWellId(wellId);
         return equipmentService.create(equipment);
     }
 
-    public List<Equipment> createMultiplyEquipments(long neededEquipmentCount, Well well) {
+    public List<Equipment> createMultiplyEquipments(long neededEquipmentCount, long wellId) {
         Optional<Equipment> equipmentWithMaxId = getAllEquipments().stream()
                 .max(Comparator.comparingLong(Equipment::getId));
 
@@ -39,7 +38,7 @@ public class EquipmentController {
                 .orElse(1L);
 
         for (long i = 1; i <= neededEquipmentCount; i++) {
-            Equipment currentEquipment = createEquipment(EQUIPMENT_NAME_PREFIX + nextId, well);
+            Equipment currentEquipment = createEquipment(EQUIPMENT_NAME_PREFIX + nextId, wellId);
             createdEquipments.add(currentEquipment);
             nextId++;
         }

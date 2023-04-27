@@ -2,9 +2,8 @@ package org.example.service;
 
 import lombok.AllArgsConstructor;
 import org.example.model.Equipment;
-import org.example.model.Well;
 import org.example.repository.EquipmentRepository;
-import org.example.repository.hibernate.HibernateEquipmentRepositoryImpl;
+import org.example.repository.jdbc.JDBCEquipmentRepositoryImpl;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ public class EquipmentService {
     private final EquipmentRepository equipmentRepository;
 
     public EquipmentService() {
-        this.equipmentRepository = new HibernateEquipmentRepositoryImpl();
+        this.equipmentRepository = new JDBCEquipmentRepositoryImpl();
     }
 
    public List<Equipment> getAll() {

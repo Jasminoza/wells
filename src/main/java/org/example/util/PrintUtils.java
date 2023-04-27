@@ -27,4 +27,12 @@ public class PrintUtils {
     public static void printWellsListIsEmpty() {
         System.out.println("Wells list is empty.");
     }
+
+    public static void printEnterCorrectId() {
+        System.out.println("Please, enter correct id.");
+    }
+
+    public static void printNoWellFoundById() {
+        System.out.println("There is no well with such id. Please, try again.");
+    }
 }
