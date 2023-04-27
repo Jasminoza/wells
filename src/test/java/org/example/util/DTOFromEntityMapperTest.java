@@ -11,13 +11,13 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DBExporterTest {
+class DTOFromEntityMapperTest {
 
     @Test
     void getWellDtoListFromWellsList() {
         List<Well> allWells = getWellsList();
 
-        List<WellDto> wellDtoList = DBExporter.getWellDtoListFromWellsList(allWells);
+        List<WellDto> wellDtoList = DTOFromEntityMapper.getWellDtoListFromWellsList(allWells);
 
         assertEquals(allWells.size(), wellDtoList.size());
         assertEquals(allWells.get(0).getId(), wellDtoList.get(0).getId());
@@ -30,7 +30,7 @@ class DBExporterTest {
     void getEquipmentDtoListFromEquipmentList() {
         List<Equipment> allEquipments = getEquipmentsList();
 
-        List<EquipmentDto> equipmentDtoList = DBExporter.getEquipmentDtoListFromEquipmentList(allEquipments);
+        List<EquipmentDto> equipmentDtoList = DTOFromEntityMapper.getEquipmentDtoListFromEquipmentList(allEquipments);
 
         assertEquals(allEquipments.size(), equipmentDtoList.size());
         assertEquals(allEquipments.get(0).getId(), equipmentDtoList.get(0).getId());

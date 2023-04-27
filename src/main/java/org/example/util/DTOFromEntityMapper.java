@@ -8,9 +8,9 @@ import org.example.model.Well;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DBExporter {
+public class DTOFromEntityMapper {
 
-    private DBExporter() {}
+    private DTOFromEntityMapper() {}
 
     public static List<WellDto> getWellDtoListFromWellsList(List<Well> allWells) {
         List<WellDto> wellDtoList = new ArrayList<>();

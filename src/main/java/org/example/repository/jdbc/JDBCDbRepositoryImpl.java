@@ -11,8 +11,8 @@ import org.example.repository.WellRepository;
 
 import java.util.List;
 
-import static org.example.util.DBExporter.getEquipmentDtoListFromEquipmentList;
-import static org.example.util.DBExporter.getWellDtoListFromWellsList;
+import static org.example.util.DTOFromEntityMapper.getEquipmentDtoListFromEquipmentList;
+import static org.example.util.DTOFromEntityMapper.getWellDtoListFromWellsList;
 
 
 public class JDBCDbRepositoryImpl implements DbRepository {
