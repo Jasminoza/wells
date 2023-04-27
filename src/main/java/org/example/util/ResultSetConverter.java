@@ -1,6 +1,5 @@
 package org.example.util;
 
-import lombok.SneakyThrows;
 import org.example.model.Equipment;
 import org.example.model.Well;
 
@@ -45,8 +44,7 @@ public class ResultSetConverter {
         return well;
     }
 
-    @SneakyThrows
-    public static List<Well> convertToWellsList(ResultSet resultSet) {
+    public static List<Well> convertToWellsList(ResultSet resultSet) throws SQLException {
         List<Well> wellList = new ArrayList<>();
 
         while (resultSet.next()) {

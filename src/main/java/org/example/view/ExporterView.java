@@ -30,6 +30,7 @@ public class ExporterView {
     private void saveToFile(String outputFileName, String dbInfoAsXML) {
         try (PrintWriter out = new PrintWriter(outputFileName)) {
             out.println(dbInfoAsXML);
+            System.out.printf("Database info successfully saved to '%s'.%n%n", outputFileName);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
