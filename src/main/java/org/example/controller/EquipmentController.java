@@ -5,11 +5,13 @@ import org.example.model.Well;
 import org.example.service.EquipmentService;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 public class EquipmentController {
     private final EquipmentService equipmentService;
+    private static final String EQUIPMENT_NAME_PREFIX = "EQ";
 
     public EquipmentController() {
         this.equipmentService = new EquipmentService();
@@ -27,9 +29,8 @@ public class EquipmentController {
     }
 
     public List<Equipment> createMultiplyEquipments(long neededEquipmentCount, Well well) {
-        Optional<Equipment> equipmentWithMaxId = java.util.Optional.ofNullable(getAllEquipments().stream()
-                .max((a, b) -> (a.getId() > b.getId()) ? 1 : -1)
-                .orElse(null));
+        Optional<Equipment> equipmentWithMaxId = getAllEquipments().stream()
+                .max(Comparator.comparingLong(Equipment::getId));
 
         List<Equipment> createdEquipments = new ArrayList<>();
 
@@ -38,7 +39,7 @@ public class EquipmentController {
                 .orElse(1L);
 
         for (long i = 1; i <= neededEquipmentCount; i++) {
-            Equipment currentEquipment = createEquipment("EQ" + nextId, well);
+            Equipment currentEquipment = createEquipment(EQUIPMENT_NAME_PREFIX + nextId, well);
             createdEquipments.add(currentEquipment);
             nextId++;
         }

@@ -4,8 +4,12 @@ import org.example.controller.EquipmentController;
 import org.example.controller.WellController;
 import org.example.model.Equipment;
 import org.example.model.Well;
+import org.example.util.PrintUtils;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class EquipmentView {
@@ -25,9 +29,9 @@ public class EquipmentView {
         List<Equipment> equipments = equipmentController.getAllEquipments();
 
         if (equipments.isEmpty()) {
-            printEquipmentsListIsEmpty();
+            PrintUtils.printEquipmentsListIsEmpty();
         } else {
-            printEquipmentsListInfo(equipments);
+            PrintUtils.printListInfo(equipments);
         }
     }
 
@@ -48,19 +52,6 @@ public class EquipmentView {
         System.out.println("NOT IMPLEMENTED");
     }
 
-    private static void printEquipmentsListIsEmpty() {
-        System.out.println("Equipments list is empty.");
-    }
-
-    private static void printEquipmentsListInfo(List<Equipment> equipments) {
-        System.out.println("Equipments:\n===============================");
-        equipments.forEach(EquipmentView::printEquipmentInfo);
-        System.out.println("===============================");
-    }
-
-    private static void printEquipmentInfo(Equipment equipment) {
-        System.out.println(equipment.toString());
-    }
 
     private void createNewEquipment(List<Equipment> equipments) {
         Well well = wellView.tryToGetWillById();
@@ -88,7 +79,7 @@ public class EquipmentView {
                 nameIsAlreadyExist = false;
                 Equipment equipment = equipmentController.createEquipment(name, well);
                 System.out.print("Created equipment: ");
-                printEquipmentInfo(equipment);
+                PrintUtils.printEntityInfo(equipment);
             }
         }
     }
@@ -96,9 +87,8 @@ public class EquipmentView {
     public void createMultiplyEquipment() {
         System.out.println("Enter well name: ");
         String wellName = scanner.nextLine();
-        Well well = wellController.getWellByName(wellName);
 
-        System.out.println("Please, enter number of equipments you want to add to well: " + well.getName());
+        System.out.println("Please, enter number of equipments you want to add to well: " + wellName);
 
         long neededEquipmentCount;
         boolean numberIsCorrect = false;
@@ -118,13 +108,67 @@ public class EquipmentView {
                 }
 
                 numberIsCorrect = true;
-                List<Equipment> createdEquipments = equipmentController.createMultiplyEquipments(neededEquipmentCount, well);
-                System.out.printf("Created equipments at well '%s':%n", well.getName());
-                printEquipmentsListInfo(createdEquipments);
+                Well wellForEquipment = getWellForEquipment(wellName);
+                List<Equipment> createdEquipments = equipmentController.createMultiplyEquipments(neededEquipmentCount, wellForEquipment);
+
+                System.out.printf("Created equipments at well '%s':%n", wellForEquipment.getName());
+                PrintUtils.printListInfo(createdEquipments);
 
             } catch (NumberFormatException e) {
                 System.out.println("Please, enter correct number.");
             }
+        }
+    }
+
+    private Well getWellForEquipment(String wellName) {
+        Well wellFromRepo = wellController.getWellByName(wellName);
+        return wellFromRepo != null ? wellFromRepo : wellController.createWell(wellName);
+    }
+
+    public void showEquipmentsByWell() {
+        List<Equipment> equipments = equipmentController.getAllEquipments();
+
+        if (equipments.isEmpty()) {
+            PrintUtils.printEquipmentsListIsEmpty();
+            return;
+        }
+
+
+        List<Well> wells = wellController.getAllWells();
+
+        if (wells.isEmpty()) {
+            PrintUtils.printWellsListIsEmpty();
+            return;
+        }
+
+        PrintUtils.printListInfo(wells);
+        System.out.println("Please enter wells names with delimiter ' ' or ','");
+
+        String inputString = scanner.nextLine();
+
+        String[] wellsStrings = inputString.split("[ ,]+");
+
+        Map<String, Long> wellCounts = new HashMap<>();
+
+        Arrays.stream(wellsStrings).forEach(wellName -> {
+
+            Well wellFromRepo = wellController.getWellByName(wellName);
+            if (wellFromRepo != null) {
+                Long equipmentCount = equipmentController.getAllEquipments()
+                        .stream()
+                        .filter(eq -> wellFromRepo.getId().equals(eq.getWellId())).count();
+
+                wellCounts.put(wellName, equipmentCount);
+            } else {
+                System.out.printf("Well with name '%s' did not found, skipping.%n", wellName);
+            }
+        });
+
+        if (wellCounts.size() > 0) {
+            System.out.println("Table of wells names and equipment count on it:");
+            System.out.println(wellCounts);
+        } else {
+            System.out.println("No wells found.");
         }
     }
 }

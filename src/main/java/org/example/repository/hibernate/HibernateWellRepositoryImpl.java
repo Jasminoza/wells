@@ -53,14 +53,10 @@ public class HibernateWellRepositoryImpl implements WellRepository {
     @Override
     public Well getByName(String wellName) {
         List<Well> wells = getAll();
-        boolean wellAlreadyExists = wells.stream().anyMatch(well -> well.getName().equalsIgnoreCase(wellName));
-        if (wellAlreadyExists) {
-            return wells.stream().filter(well -> well.getName().equalsIgnoreCase(wellName)).findFirst().get();
-        } else {
-            Well well = new Well();
-            well.setName(wellName);
-            return create(well);
-        }
+
+        return wells.stream()
+                .filter(well -> well.getName().equalsIgnoreCase(wellName)).findFirst()
+                .orElse(null);
     }
 
     private Well saveWellToDB(Well well) {

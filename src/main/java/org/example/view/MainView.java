@@ -24,6 +24,7 @@ public class MainView {
                     4. to delete a well.            14. to delete an equipment.\s
                     5. to update well.              15. to update an equipment.\s
                     6. to create .....              16. to create multiply equipments at well.\s
+                    7. to create .....              17. to show equipments count by well.\s
                                         
 
                     0. to exit the program.
@@ -44,6 +45,7 @@ public class MainView {
                 case "14" -> equipmentView.deleteEquipment();
                 case "15" -> equipmentView.updateEquipment();
                 case "16" -> equipmentView.createMultiplyEquipment();
+                case "17" -> equipmentView.showEquipmentsByWell();
 
                 case "0" -> {
                     System.out.println("Goodbye.");
