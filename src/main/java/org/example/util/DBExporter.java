@@ -15,24 +15,26 @@ public class DBExporter {
     public static List<WellDto> getWellDtoListFromWellsList(List<Well> allWells) {
         List<WellDto> wellDtoList = new ArrayList<>();
 
-        for (Well well : allWells) {
+        allWells.forEach(well -> {
             WellDto wellDto = new WellDto();
             wellDto.setId(well.getId());
             wellDto.setName(well.getName());
             wellDtoList.add(wellDto);
-        }
+        });
+
         return wellDtoList;
     }
 
     public static List<EquipmentDto> getEquipmentDtoListFromEquipmentList(List<Equipment> allEquipments) {
         List<EquipmentDto> equipmentDtoList = new ArrayList<>();
 
-        for (Equipment equipment : allEquipments) {
+        allEquipments.forEach(equipment -> {
             EquipmentDto equipmentDto = new EquipmentDto();
             equipmentDto.setId(equipment.getId());
             equipmentDto.setName(equipment.getName());
             equipmentDtoList.add(equipmentDto);
-        }
+        });
+
         return equipmentDtoList;
     }
 }

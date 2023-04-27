@@ -42,11 +42,11 @@ public class JDBCDbRepositoryImpl implements DbRepository {
     private List<WellDto> getWellDtoListWithUsedEquipments(List<WellDto> wellDtoList, List<Equipment> allEquipments) {
         List<WellDto> updatedWellDtoList = List.copyOf(wellDtoList);
 
-        for (WellDto wellDto : updatedWellDtoList) {
+        updatedWellDtoList.forEach(wellDto -> {
             List<Equipment> equipmentList = getEquipmentListForWellDto(allEquipments, wellDto);
             List<EquipmentDto> equipmentDtoList = getEquipmentDtoListFromEquipmentList(equipmentList);
             wellDto.setEquipmentDtoList(equipmentDtoList);
-        }
+        });
 
         return updatedWellDtoList;
     }

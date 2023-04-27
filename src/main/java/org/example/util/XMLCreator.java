@@ -26,9 +26,7 @@ public class XMLCreator {
     }
 
     private static void appendWellsEquipments(StringBuilder sb, WellDto wellDto) {
-        for (EquipmentDto equipmentDto : wellDto.getEquipmentDtoList()) {
-            appendEquipmentTag(sb, equipmentDto);
-        }
+        wellDto.getEquipmentDtoList().forEach(equipmentDto -> appendEquipmentTag(sb, equipmentDto));
     }
 
     private static void appendDbClosingTag(StringBuilder sb) {
