@@ -10,29 +10,52 @@ public class XMLCreator {
 
     public static String createXMLFromDBInfo(DBInfo dbInfo) {
         StringBuilder sb = new StringBuilder();
-
-        sb.append("<dbInfo>");
-        sb.append("\n");
-
-        for (WellDto wellDto : dbInfo.getWellDtoList()) {
-            sb.append("\t");
-            sb.append(String.format("<well name=\"%s\" id=\"%s\">", wellDto.getName(), wellDto.getId()));
-            sb.append("\n");
-
-            for (EquipmentDto equipmentDto : wellDto.getEquipmentDtoList()) {
-                sb.append("\t");
-                sb.append("\t");
-                sb.append(String.format("<equipment name=\"%s\" id=\"%s\"/>", equipmentDto.getName(), equipmentDto.getId()));
-                sb.append("\n");
-            }
-
-            sb.append("\t");
-            sb.append("</well>");
-            sb.append("\n");
-        }
-
-        sb.append("</dbInfo>");
+        appendDbOpenTag(sb);
+        appendWellsTags(dbInfo, sb);
+        appendDbClosingTag(sb);
 
         return sb.toString();
+    }
+
+    private static void appendWellsTags(DBInfo dbInfo, StringBuilder sb) {
+        dbInfo.getWellDtoList().forEach(wellDto -> {
+            appendWellOpenTag(sb, wellDto);
+            appendWellsEquipments(sb, wellDto);
+            appendWellClosingTag(sb);
+        });
+    }
+
+    private static void appendWellsEquipments(StringBuilder sb, WellDto wellDto) {
+        for (EquipmentDto equipmentDto : wellDto.getEquipmentDtoList()) {
+            appendEquipmentTag(sb, equipmentDto);
+        }
+    }
+
+    private static void appendDbClosingTag(StringBuilder sb) {
+        sb.append("</dbInfo>");
+    }
+
+    private static void appendWellClosingTag(StringBuilder sb) {
+        sb.append("\t");
+        sb.append("</well>");
+        sb.append("\n");
+    }
+
+    private static void appendEquipmentTag(StringBuilder sb, EquipmentDto equipmentDto) {
+        sb.append("\t");
+        sb.append("\t");
+        sb.append(String.format("<equipment name=\"%s\" id=\"%s\"/>", equipmentDto.getName(), equipmentDto.getId()));
+        sb.append("\n");
+    }
+
+    private static void appendWellOpenTag(StringBuilder sb, WellDto wellDto) {
+        sb.append("\t");
+        sb.append(String.format("<well name=\"%s\" id=\"%s\">", wellDto.getName(), wellDto.getId()));
+        sb.append("\n");
+    }
+
+    private static void appendDbOpenTag(StringBuilder sb) {
+        sb.append("<dbInfo>");
+        sb.append("\n");
     }
 }

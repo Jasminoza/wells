@@ -8,7 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class JDBCUtils {
-    private static Connection connectionToMySQLite;
+    private static Connection connectionToSQLite;
+
+    private static final String DB_DRIVER = "db.driver";
+    private static final String DB_URL = "db.url";
+    private static final String DB_USER = "db.user";
+    private static final String DB_PASSWORD = "db.password";
 
     private JDBCUtils() {
     }
@@ -18,18 +23,18 @@ public class JDBCUtils {
     }
 
     private static synchronized Connection getConnection() {
-        if (connectionToMySQLite == null) {
+        if (connectionToSQLite == null) {
             try {
-                String jdbcDriver = ConfigFactory.load().getString("db.driver");
-                String databaseUrl = ConfigFactory.load().getString("db.url");
-                String user = ConfigFactory.load().getString("db.user");
-                String password = ConfigFactory.load().getString("db.password");
+                String jdbcDriver = ConfigFactory.load().getString(DB_DRIVER);
+                String databaseUrl = ConfigFactory.load().getString(DB_URL);
+                String user = ConfigFactory.load().getString(DB_USER);
+                String password = ConfigFactory.load().getString(DB_PASSWORD);
                 Class.forName(jdbcDriver);
-                connectionToMySQLite = DriverManager.getConnection(databaseUrl, user, password);
+                connectionToSQLite = DriverManager.getConnection(databaseUrl, user, password);
             } catch (SQLException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
-        return connectionToMySQLite;
+        return connectionToSQLite;
     }
 }
