@@ -14,13 +14,11 @@ public class EquipmentView {
     private final Scanner scanner;
     private final EquipmentController equipmentController;
     private final WellController wellController;
-    private final WellView wellView;
 
     public EquipmentView() {
         this.scanner = new Scanner(System.in);
         this.equipmentController = new EquipmentController();
         this.wellController = new WellController();
-        this.wellView = new WellView();
     }
 
     public void createMultiplyEquipment() {

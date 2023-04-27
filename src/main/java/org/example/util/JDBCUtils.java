@@ -17,10 +17,6 @@ public class JDBCUtils {
         return getConnection().prepareStatement(sql);
     }
 
-    public static synchronized PreparedStatement getPreparedStatement(String sql, int statementCode) throws SQLException {
-        return getConnection().prepareStatement(sql, statementCode);
-    }
-
     private static synchronized Connection getConnection() {
         if (connectionToMySQLite == null) {
             try {

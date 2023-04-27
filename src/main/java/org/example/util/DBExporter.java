@@ -5,17 +5,10 @@ import org.example.dto.WellDto;
 import org.example.model.Equipment;
 import org.example.model.Well;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DBExporter {
-
-    public static void buildDBXML(ResultSet resultSet) throws ParserConfigurationException, TransformerException, SQLException {
-    }
 
     public static List<WellDto> getWellDtoListFromWellsList(List<Well> allWells) {
         List<WellDto> wellDtoList = new ArrayList<>();

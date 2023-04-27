@@ -27,6 +27,7 @@ public class ExporterView {
         String dbInfoAsXML = XMLCreator.createXMLFromDBInfo(dbInfo);
 
         try (PrintWriter out = new PrintWriter(outputFileName)) {
+            System.out.println(dbInfoAsXML);
             out.println(dbInfoAsXML);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

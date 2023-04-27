@@ -16,7 +16,7 @@ public class XMLCreator {
             sb.append(String.format("<well name=\"%s\" id=\"%s\">",wellDto.getName(), wellDto.getId()));
             sb.append("\n");
 
-            for (EquipmentDto equipmentDto : wellDto.getEquipmentList()) {
+            for (EquipmentDto equipmentDto : wellDto.getEquipmentDtoList()) {
                 sb.append("\t");
                 sb.append("\t");
                 sb.append(String.format("<equipment name=\"%s\" id=\"%s\"/>", equipmentDto.getName(), equipmentDto.getId()));

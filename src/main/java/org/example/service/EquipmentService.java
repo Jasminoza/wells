@@ -15,25 +15,11 @@ public class EquipmentService {
         this.equipmentRepository = new JDBCEquipmentRepositoryImpl();
     }
 
-   public List<Equipment> getAll() {
+    public List<Equipment> getAll() {
         return equipmentRepository.getAll();
-   }
+    }
 
-   public Equipment create(Equipment equipment) {
+    public Equipment create(Equipment equipment) {
         return equipmentRepository.create(equipment);
-   }
-
-   public Equipment getById(Long id) {
-        return equipmentRepository.getById(id);
-   }
-
-    public Equipment update(Equipment equipment) {
-        return equipmentRepository.update(equipment);
     }
-
-    public void delete(Long id) {
-        equipmentRepository.delete(id);
-    }
-
-
 }

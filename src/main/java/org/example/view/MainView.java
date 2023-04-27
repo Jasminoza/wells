@@ -20,7 +20,7 @@ public class MainView {
         while (!"0".equals(choice)) {
             System.out.println("""
                     \nHello. Enter a digit from the following:\s
-                    1. to create multiply equipments at well.\s
+                    1. to create equipments at well.\s
                     2. to show equipments count by well.\s
                     3. to export database to xml file.\s
                                         
