@@ -5,6 +5,9 @@ import org.example.dto.EquipmentDto;
 import org.example.dto.WellDto;
 
 public class XMLCreator {
+    XMLCreator() {
+    }
+
     public static String createXMLFromDBInfo(DBInfo dbInfo) {
         StringBuilder sb = new StringBuilder();
 
@@ -13,7 +16,7 @@ public class XMLCreator {
 
         for (WellDto wellDto : dbInfo.getWellDtoList()) {
             sb.append("\t");
-            sb.append(String.format("<well name=\"%s\" id=\"%s\">",wellDto.getName(), wellDto.getId()));
+            sb.append(String.format("<well name=\"%s\" id=\"%s\">", wellDto.getName(), wellDto.getId()));
             sb.append("\n");
 
             for (EquipmentDto equipmentDto : wellDto.getEquipmentDtoList()) {

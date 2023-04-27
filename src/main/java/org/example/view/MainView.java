@@ -18,28 +18,35 @@ public class MainView {
     public void mainMenu() {
         String choice = "";
         while (!"0".equals(choice)) {
-            System.out.println("""
-                    \nHello. Enter a digit from the following:\s
-                    1. to create equipments at well.\s
-                    2. to show equipments count by well.\s
-                    3. to export database to xml file.\s
-                                        
-                    0. to exit the program.
-                    """);
-
+            printMainPhrase();
             choice = sc.nextLine();
-            switch (choice) {
-
-                case "1" -> equipmentView.createMultiplyEquipment();
-                case "2" -> wellView.showEquipmentCountByWells();
-                case "3" -> exporterView.exportDatabaseToXML();
-
-                case "0" -> {
-                    System.out.println("Goodbye.");
-                    System.exit(0);
-                }
-                default -> System.out.println("Please, enter a correct digit.");
-            }
+            executeProgram(choice);
         }
+    }
+
+    private void executeProgram(String choice) {
+        switch (choice) {
+
+            case "1" -> equipmentView.createMultiplyEquipment();
+            case "2" -> wellView.showEquipmentCountByWells();
+            case "3" -> exporterView.exportDatabaseToXML();
+
+            case "0" -> {
+                System.out.println("Goodbye.");
+                System.exit(0);
+            }
+            default -> System.out.println("Please, enter a correct digit.");
+        }
+    }
+
+    private void printMainPhrase() {
+        System.out.println("""
+                Hello. Enter a digit from the following:\s
+                1. to create equipments at well.\s
+                2. to show equipments count by well.\s
+                3. to export database to xml file.\s
+                                    
+                0. to exit the program.
+                """);
     }
 }

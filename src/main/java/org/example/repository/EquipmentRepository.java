@@ -2,5 +2,5 @@ package org.example.repository;
 
 import org.example.model.Equipment;
 
-public interface EquipmentRepository extends GenericRepository<Equipment, Long> {
+public interface EquipmentRepository extends GenericRepository<Equipment> {
 }

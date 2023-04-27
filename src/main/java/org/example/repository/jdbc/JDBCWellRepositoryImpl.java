@@ -13,12 +13,12 @@ import java.util.List;
 
 
 public class JDBCWellRepositoryImpl implements WellRepository {
-    private static final String table = "wells";
+    private static final String TABLE = "wells";
 
     @Override
     @SneakyThrows
     public List<Well> getAll() {
-        String sql = String.format("SELECT * FROM '%s'", table);
+        String sql = String.format("SELECT * FROM '%s'", TABLE);
 
         PreparedStatement statement = JDBCUtils.getPreparedStatement(sql);
         ResultSet resultSet = statement.executeQuery();
@@ -27,7 +27,7 @@ public class JDBCWellRepositoryImpl implements WellRepository {
 
     @Override
     public Well create(Well well) {
-        String sql = String.format("INSERT INTO '%s' ('name') VALUES (?)", table);
+        String sql = String.format("INSERT INTO '%s' ('name') VALUES (?)", TABLE);
 
         try (PreparedStatement statement = JDBCUtils.getPreparedStatement(sql)) {
             statement.setString(1, well.getName());
@@ -39,7 +39,7 @@ public class JDBCWellRepositoryImpl implements WellRepository {
     }
 
     public Well getByName(String wellName) {
-        String sql = String.format("SELECT * FROM '%s' WHERE name = ?", table);
+        String sql = String.format("SELECT * FROM '%s' WHERE name = ?", TABLE);
 
         try (PreparedStatement statement = JDBCUtils.getPreparedStatement(sql)) {
             statement.setString(1, wellName);

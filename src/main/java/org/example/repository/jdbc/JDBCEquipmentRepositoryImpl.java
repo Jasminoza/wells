@@ -13,12 +13,12 @@ import java.util.List;
 
 
 public class JDBCEquipmentRepositoryImpl implements EquipmentRepository {
-    private static final String table = "equipments";
+    private static final String TABLE = "equipments";
 
     @Override
     @SneakyThrows
     public List<Equipment> getAll() {
-        String sql = String.format("SELECT * FROM '%s'", table);
+        String sql = String.format("SELECT * FROM '%s'", TABLE);
 
         PreparedStatement statement = JDBCUtils.getPreparedStatement(sql);
         ResultSet resultSet = statement.executeQuery();
@@ -33,7 +33,7 @@ public class JDBCEquipmentRepositoryImpl implements EquipmentRepository {
     }
 
     private void insertEquipment(Equipment equipment) {
-        String sql = String.format("INSERT INTO '%s' ('name', 'well_id') VALUES (?, ?)", table);
+        String sql = String.format("INSERT INTO '%s' ('name', 'well_id') VALUES (?, ?)", TABLE);
 
         try (PreparedStatement statement = JDBCUtils.getPreparedStatement(sql)) {
             statement.setString(1, equipment.getName());
@@ -45,7 +45,7 @@ public class JDBCEquipmentRepositoryImpl implements EquipmentRepository {
     }
 
     private Equipment getByName(String equipmentName) {
-        String sql = String.format("SELECT * FROM '%s' WHERE name = ?", table);
+        String sql = String.format("SELECT * FROM '%s' WHERE name = ?", TABLE);
 
         try (PreparedStatement statement = JDBCUtils.getPreparedStatement(sql)) {
             statement.setString(1, equipmentName);

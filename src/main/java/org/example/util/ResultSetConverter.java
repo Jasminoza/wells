@@ -3,25 +3,15 @@ package org.example.util;
 import lombok.SneakyThrows;
 import org.example.model.Equipment;
 import org.example.model.Well;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.StringWriter;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ResultSetConverter {
+    private ResultSetConverter() {
+    }
 
     public static Equipment convertToEquipment(ResultSet resultSet) throws SQLException {
         if (resultSet.isBeforeFirst()) {

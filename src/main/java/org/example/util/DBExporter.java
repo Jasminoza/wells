@@ -10,6 +10,7 @@ import java.util.List;
 
 public class DBExporter {
 
+    private DBExporter() {}
     public static List<WellDto> getWellDtoListFromWellsList(List<Well> allWells) {
         List<WellDto> wellDtoList = new ArrayList<>();
 
