@@ -1,6 +1,5 @@
 package org.example.repository.jdbc;
 
-import lombok.SneakyThrows;
 import org.example.model.Well;
 import org.example.repository.WellRepository;
 import org.example.util.JDBCUtils;
@@ -16,13 +15,15 @@ public class JDBCWellRepositoryImpl implements WellRepository {
     private static final String TABLE = "wells";
 
     @Override
-    @SneakyThrows
     public List<Well> getAll() {
         String sql = String.format("SELECT * FROM '%s'", TABLE);
 
-        PreparedStatement statement = JDBCUtils.getPreparedStatement(sql);
-        ResultSet resultSet = statement.executeQuery();
-        return ResultSetConverter.convertToWellsList(resultSet);
+        try (PreparedStatement statement = JDBCUtils.getPreparedStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+            return ResultSetConverter.convertToWellsList(resultSet);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -39,7 +40,7 @@ public class JDBCWellRepositoryImpl implements WellRepository {
     }
 
     public Well getByName(String wellName) {
-        String sql = String.format("SELECT * FROM '%s' WHERE name = ?", TABLE);
+        String sql = String.format("SELECT * FROM '%s' WHERE name like ? COLLATE NOCASE", TABLE);
 
         try (PreparedStatement statement = JDBCUtils.getPreparedStatement(sql)) {
             statement.setString(1, wellName);

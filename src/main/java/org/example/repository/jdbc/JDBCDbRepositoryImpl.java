@@ -1,7 +1,5 @@
 package org.example.repository.jdbc;
 
-import jdk.jshell.spi.ExecutionControl;
-import lombok.SneakyThrows;
 import org.example.dto.DBInfo;
 import org.example.dto.EquipmentDto;
 import org.example.dto.WellDto;
@@ -19,24 +17,12 @@ import static org.example.util.DBExporter.getWellDtoListFromWellsList;
 
 public class JDBCDbRepositoryImpl implements DbRepository {
 
-    private EquipmentRepository equipmentRepository;
-    private WellRepository wellRepository;
+    private final EquipmentRepository equipmentRepository;
+    private final WellRepository wellRepository;
 
     public JDBCDbRepositoryImpl() {
         this.equipmentRepository = new JDBCEquipmentRepositoryImpl();
         this.wellRepository = new JDBCWellRepositoryImpl();
-    }
-
-    @Override
-    @SneakyThrows
-    public List<DBInfo> getAll() {
-        throw new ExecutionControl.NotImplementedException("NOT IMPLEMENTED");
-    }
-
-    @Override
-    @SneakyThrows
-    public DBInfo create(DBInfo dbInfo) {
-        throw new ExecutionControl.NotImplementedException("NOT IMPLEMENTED");
     }
 
     public DBInfo getAllWellsWithEquipments() {
@@ -46,19 +32,30 @@ public class JDBCDbRepositoryImpl implements DbRepository {
         List<WellDto> wellDtoList = getWellDtoListFromWellsList(allWells);
 
         List<Equipment> allEquipments = equipmentRepository.getAll();
-
-        for (WellDto wellDto : wellDtoList) {
-            List<Equipment> equipmentList = allEquipments
-                    .stream()
-                    .filter(equipment -> equipment.getWellId().equals(wellDto.getId()))
-                    .toList();
-            List<EquipmentDto> equipmentDtoList = getEquipmentDtoListFromEquipmentList(equipmentList);
-            wellDto.setEquipmentDtoList(equipmentDtoList);
-        }
+        wellDtoList = getWellDtoListWithUsedEquipments(wellDtoList, allEquipments);
 
         dbInfo.setWellDtoList(wellDtoList);
 
         return dbInfo;
+    }
+
+    private List<WellDto> getWellDtoListWithUsedEquipments(List<WellDto> wellDtoList, List<Equipment> allEquipments) {
+        List<WellDto> updatedWellDtoList = List.copyOf(wellDtoList);
+
+        for (WellDto wellDto : updatedWellDtoList) {
+            List<Equipment> equipmentList = getEquipmentListForWellDto(allEquipments, wellDto);
+            List<EquipmentDto> equipmentDtoList = getEquipmentDtoListFromEquipmentList(equipmentList);
+            wellDto.setEquipmentDtoList(equipmentDtoList);
+        }
+
+        return updatedWellDtoList;
+    }
+
+    private List<Equipment> getEquipmentListForWellDto(List<Equipment> allEquipments, WellDto wellDto) {
+        return allEquipments
+                .stream()
+                .filter(equipment -> equipment.getWellId().equals(wellDto.getId()))
+                .toList();
     }
 
 

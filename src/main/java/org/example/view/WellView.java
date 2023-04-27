@@ -22,33 +22,36 @@ public class WellView {
 
     public void showEquipmentCountByWells() {
         System.out.println("Please enter wells names with delimiter ' ' or ','");
-
         String inputString = scanner.nextLine();
-
         String[] wellsStrings = inputString.split("[ ,]+");
 
         Map<String, Long> wellCounts = new HashMap<>();
 
         Arrays.stream(wellsStrings).forEach(wellName -> {
-
             Well wellFromRepo = wellController.getWellByName(wellName);
-            if (wellFromRepo.getId() != 0) {
+
+            if (wellFromRepo.getId() == 0) {
+                System.out.printf("Well with name '%s' did not found, skipping.%n", wellName);
+            } else {
                 Long equipmentCount = equipmentController.getAllEquipments()
                         .stream()
-                        .filter(eq -> wellFromRepo.getId().equals(eq.getWellId()))
+                        .filter(equipment -> wellFromRepo.getId().equals(equipment.getWellId()))
                         .count();
 
                 wellCounts.put(wellName, equipmentCount);
-            } else {
-                System.out.printf("Well with name '%s' did not found, skipping.%n", wellName);
             }
         });
 
-        if (wellCounts.size() > 0) {
+        printWellsAndEquipmentsCount(wellCounts);
+    }
+
+    private void printWellsAndEquipmentsCount(Map<String, Long> wellCounts) {
+        if (wellCounts.isEmpty()) {
+            System.out.printf("No wells found.%n%n");
+        } else {
             System.out.println("Table of wells names and equipment count on it:");
             System.out.println(wellCounts);
-        } else {
-            System.out.println("No wells found.");
+            System.out.println();
         }
     }
 }

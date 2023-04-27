@@ -28,7 +28,8 @@ public class EquipmentController {
     }
 
     public List<Equipment> createMultiplyEquipments(long neededEquipmentCount, long wellId) {
-        Optional<Equipment> equipmentWithMaxId = getAllEquipments().stream()
+        Optional<Equipment> equipmentWithMaxId = getAllEquipments()
+                .stream()
                 .max(Comparator.comparingLong(Equipment::getId));
 
         List<Equipment> createdEquipments = new ArrayList<>();

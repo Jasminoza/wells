@@ -1,6 +1,5 @@
 package org.example.repository.jdbc;
 
-import lombok.SneakyThrows;
 import org.example.model.Equipment;
 import org.example.repository.EquipmentRepository;
 import org.example.util.JDBCUtils;
@@ -16,17 +15,18 @@ public class JDBCEquipmentRepositoryImpl implements EquipmentRepository {
     private static final String TABLE = "equipments";
 
     @Override
-    @SneakyThrows
     public List<Equipment> getAll() {
         String sql = String.format("SELECT * FROM '%s'", TABLE);
 
-        PreparedStatement statement = JDBCUtils.getPreparedStatement(sql);
-        ResultSet resultSet = statement.executeQuery();
-        return ResultSetConverter.convertToEquipmentsList(resultSet);
+        try (PreparedStatement statement = JDBCUtils.getPreparedStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+            return ResultSetConverter.convertToEquipmentsList(resultSet);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    @SneakyThrows
     public Equipment create(Equipment equipment) {
         insertEquipment(equipment);
         return getByName(equipment.getName());

@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class ExporterView {
     private final Scanner scanner;
-    private ExporterController exporterController;
+    private final ExporterController exporterController;
 
     public ExporterView() {
         this.scanner = new Scanner(System.in);
@@ -19,15 +19,16 @@ public class ExporterView {
 
     public void exportDatabaseToXML() {
         System.out.println("If file exists, it will be overwritten! Please enter file name:");
-
         String outputFileName = scanner.nextLine() + ".xml";
 
         DBInfo dbInfo = exporterController.getAllWellsWithEquipments();
-
         String dbInfoAsXML = XMLCreator.createXMLFromDBInfo(dbInfo);
 
+        saveToFile(outputFileName, dbInfoAsXML);
+    }
+
+    private void saveToFile(String outputFileName, String dbInfoAsXML) {
         try (PrintWriter out = new PrintWriter(outputFileName)) {
-            System.out.println(dbInfoAsXML);
             out.println(dbInfoAsXML);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
